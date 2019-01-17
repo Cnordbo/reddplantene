@@ -49,6 +49,7 @@ void loop() {
   digitalWrite(MOISTURE_POWER_PIN, LOW);
   
   // Oppgave: Send inn sensorValue verdien til ThingSpeak
+  // BonusOppgave: Send inn sensorverdien OG en verdi som representerer fuktigheten i prosent. 
   
   // Oppgave: Sjekk at forespørselen gikk gjennom, skriv ut en feilmelding om ikke. 
 

@@ -53,12 +53,19 @@ void loop() {
   digitalWrite(MOISTURE_POWER_PIN, LOW);
   
   // Oppgave: Send inn sensorValue verdien til ThingSpeak
-  int responseCode = ThingSpeak.writeField(Kanal,1,sensorValue,ApiKey);
+  //int responseCode = ThingSpeak.writeField(Kanal,1,sensorValue,ApiKey);
+  
+  // BonusOppgave: Send inn sensorverdien OG en verdi som representerer fuktigheten i prosent.
+  ThingSpeak.setField(1,sensorValue);
+
+  int relativeValue = map(sensorValue,0,400,0,100);
+  ThingSpeak.setField(2, relativeValue);
+  int responseCode = ThingSpeak.writeFields(Kanal, ApiKey);
+       
   
   // Oppgave: Sjekk at forespørselen gikk gjennom, skriv ut en feilmelding om ikke. 
   if(responseCode == 200) {
-    Serial.print("Value sent to thingspeak: ");
-    Serial.println(sensorValue);
+    Serial.print("Successfully sent to Thingspeak");
   } else {
     Serial.print("Error sending data: ");
     Serial.println(responseCode);
