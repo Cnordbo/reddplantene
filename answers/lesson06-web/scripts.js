@@ -26,9 +26,10 @@ $(document).ready(function() {
 
 function getMoistureLevel() {
   $.ajax({
-    url: ""
+    url:
+      "https://api.thingspeak.com/channels/<channel>/fields/1.json?api_key=<api-key>&results=1"
   }).done(function(data) {
-    displayValue(0);
+    displayValue(data.feeds[0].field1);
   });
 }
 
