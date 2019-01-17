@@ -1,10 +1,7 @@
-# reddplantene
-IoT kurs med introduksjon til ESP8266, Sparkfun Datastreams (Phant) og fuktighetssensor.
+# Redd plantene
+IoT kurs med introduksjon til ESP8266, ThingSpeak og fuktighetssensor.
 
 Hvis du har moistboard v1.x må du bruke koden fra release v1.0. Koden i masterbranchen er for moistboard v2.x.
-
-# Upcoming changes
-- Phant has reached end of life :/ Will replace with Adafruit IO or something like that.
 
 # Agenda
 - Lodding
@@ -23,8 +20,6 @@ Hvis du har moistboard v1.x må du bruke koden fra release v1.0. Koden i masterb
 
 # Credits
 
-Oppgavene er basert på Daniel Holmens lignende kurs. 
-
-# Contact
-
-Contact Nikhil André Luthra if you need to know anything :)
+Daniel Holmen
+Nikhil Andrè Luthra - Bouvet Oslo
+Christer Nordbø - Bouvet Stavanger
