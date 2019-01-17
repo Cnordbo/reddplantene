@@ -1,27 +1,22 @@
 /* Redd Plantene
  * @author: Nikhil André Luthra - Bouvet Norge
+ * @author: Christer Nordbø - Bouvet Norge
  * @web: reddplantene.labben.org / bouvet.no/reddplantene
- * @web: bouvet.no / nikhil.luthra.no
+ * @web: bouvet.no / nikhil.luthra.no / cnordbo.no
  */
 #include <ESP8266WiFi.h>
-#include <Phant.h>
+// Oppgave: Installer ThingSpeak bibliotek og inkluder header.
 
 // Fyll ut med SSID og passord
 #define WIFI_SSID ""
 #define WIFI_PASSWORD ""
 
-// Fyll ut phanthost, publickey og privatekey
-const char PhantHost[] = "phant.labben.org"; //Get your public and private key by visiting http://phant.labben.org:8090
-const char PublicKey[] = "";
-const char PrivateKey[] = "";
-
-WiFiClient client;
-const int httpPort = 8090;
+// Fyll ut ApiKey og Kanal
+const char * ApiKey = "";
+unsigned long Kanal = 0;
 
 #define MOISTURE_PIN A0
 #define MOISTURE_POWER_PIN D7
-
-int sensorValue = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -30,8 +25,10 @@ void setup() {
   pinMode(MOISTURE_POWER_PIN, OUTPUT);
   digitalWrite(MOISTURE_POWER_PIN, LOW);
 
+  //Oppgave: Initialiser ThingSpeak klienten
+
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  Serial.print("connecting");
+  Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print(".");
     delay(500);
@@ -46,26 +43,14 @@ void loop() {
   digitalWrite(MOISTURE_POWER_PIN, HIGH);
   delay(300);
   
-  sensorValue = analogRead(MOISTURE_PIN);
+  int sensorValue = analogRead(MOISTURE_PIN);
   
   delay(100);
   digitalWrite(MOISTURE_POWER_PIN, LOW);
   
-
-  // Oppgave: Deklarer et Phantobjekt
+  // Oppgave: Send inn sensorValue verdien til ThingSpeak
   
-
-  // Oppgave: legg til sensorverdien i Phantobjektet. Husk å bruke samme nøkkel som når du opprettet phant-stream
-  
-
-  // Oppgave: koble til Phantserveren. Skriv ut feilmelding om tilkobling mislyktes
-  
-  
-
-  // Oppgave: Post data til Phant serveren
-
-
-
+  // Oppgave: Sjekk at forespørselen gikk gjennom, skriv ut en feilmelding om ikke. 
 
   delay(15000);
 }

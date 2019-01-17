@@ -1,38 +1,38 @@
 /* Redd Plantene
  * @author: Nikhil André Luthra - Bouvet Norge
+ * @author: Christer Nordbø - Bouvet Norge
  * @web: reddplantene.labben.org / bouvet.no/reddplantene
- * @web: bouvet.no / nikhil.luthra.no
+ * @web: bouvet.no / nikhil.luthra.no / cnordbo.no
  */
 #include <ESP8266WiFi.h>
-#include <Phant.h>
+#include <ThingSpeak.h>
 
 // Fyll ut med SSID og passord
 #define WIFI_SSID ""
 #define WIFI_PASSWORD ""
 
-// Fyll ut phanthost, publickey og privatekey
-const char PhantHost[] = "phant.labben.org";
-const char PublicKey[] = "";
-const char PrivateKey[] = "";
-
-WiFiClient client;
-const int httpPort = 8090;
+// Fyll ut ApiKey og Kanal
+const char * ApiKey = "";
+unsigned long Kanal = 0;
 
 #define MOISTURE_PIN A0
 #define MOISTURE_POWER_PIN D7
 
-int sensorValue = 0;
+WiFiClient MyClient;
 
 void setup() {
   Serial.begin(115200);
-  
   pinMode(MOISTURE_PIN, INPUT);
   
   pinMode(MOISTURE_POWER_PIN, OUTPUT);
   digitalWrite(MOISTURE_POWER_PIN, LOW);
 
+  //Oppgave: Initialiser ThingSpeak klienten
+ 
+  ThingSpeak.begin(MyClient);
+
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  Serial.print("connecting");
+  Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print(".");
     delay(500);
@@ -47,26 +47,22 @@ void loop() {
   digitalWrite(MOISTURE_POWER_PIN, HIGH);
   delay(300);
   
-  sensorValue = analogRead(MOISTURE_PIN);
+  int sensorValue = analogRead(MOISTURE_PIN);
   
   delay(100);
   digitalWrite(MOISTURE_POWER_PIN, LOW);
-
-  // Oppgave: Deklarer et Phantobjekt
-  Phant phant(PhantHost, PublicKey, PrivateKey);
-
-  // Oppgave: legg til sensorverdien i Phantobjektet. Husk å bruke samme nøkkel som når du opprettet phant-stream
-  phant.add("moisture", sensorValue);
-
-  // Oppgave: koble til Phantserveren. Skriv ut feilmelding om tilkobling mislyktes
-  if (!client.connect(PhantHost, httpPort)) 
-  {
-    // If we fail to connect, return 0.
-    Serial.println("Error connecting to Phant.");
+  
+  // Oppgave: Send inn sensorValue verdien til ThingSpeak
+  int responseCode = ThingSpeak.writeField(Kanal,1,sensorValue,ApiKey);
+  
+  // Oppgave: Sjekk at forespørselen gikk gjennom, skriv ut en feilmelding om ikke. 
+  if(responseCode == 200) {
+    Serial.print("Value sent to thingspeak: ");
+    Serial.println(sensorValue);
+  } else {
+    Serial.print("Error sending data: ");
+    Serial.println(responseCode);
   }
-
-  // Oppgave: Post data til Phant serveren
-  client.print(phant.post());
 
   delay(15000);
 }
