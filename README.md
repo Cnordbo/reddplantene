@@ -21,5 +21,7 @@ Hvis du har moistboard v1.x må du bruke koden fra release v1.0. Koden i masterb
 # Credits
 
 Daniel Holmen
+
 Nikhil Andrè Luthra - Bouvet Oslo
+
 Christer Nordbø - Bouvet Stavanger
